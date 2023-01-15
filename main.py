@@ -7,7 +7,7 @@ from config import *
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
-
+# комменатрий
 driver = uc.Chrome()
 driver.get(website)
 try:
