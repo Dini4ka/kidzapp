@@ -10,9 +10,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Filters
 Cities = []
-Areas = []
 Categories = []
-Sub_Categories = []
 
 driver = uc.Chrome()
 driver.get(website)
@@ -21,11 +19,18 @@ try:
     filters = driver.find_elements(By.CLASS_NAME, 'js-example-disabled-results')
     for filter in filters:
         if 'Al Ain' in filter.text:
-            Cities.append(filter.text.split('\n'))
+            Cities = filter.text.split('\n')[1:]
             continue
         if 'Category*' in filter.text:
-            Categories.append(filter.text.split('\n'))
+            Categories = filter.text.split('\n')[1:]
             break
+
+    # handle categories
+    category_field = Select(driver.find_element(By.ID, 'categoryDropdown'))
+    for category in Categories:
+        category_field.select_by_visible_text(category)
+
+    time.sleep(5)
 except Exception as ex:
     print(ex)
 finally:
