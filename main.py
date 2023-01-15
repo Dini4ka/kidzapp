@@ -29,7 +29,11 @@ try:
     category_field = Select(driver.find_element(By.ID, 'categoryDropdown'))
     for category in Categories:
         category_field.select_by_visible_text(category)
-
+        time.sleep(2)
+        # Getting offer's link
+        offer_list = driver.find_element(By.CLASS_NAME,'reviewDiv')
+        offer_links = [offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME,'a')]
+        print(offer_links)
     time.sleep(5)
 except Exception as ex:
     print(ex)
