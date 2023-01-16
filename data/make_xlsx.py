@@ -30,6 +30,7 @@ def Make_Table():
     for field in image:
         images.write(row, col, field)
         col += 1
+
     workbook.close()
 
 
