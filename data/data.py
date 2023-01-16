@@ -1,9 +1,3 @@
-import openpyxl
-
-wb = openpyxl.Workbook()
-SheetName = wb.sheetnames
-wb.save(filename='data.xlsx')
-
 # main table fields
 main_fields_null = ['company', 'header', 'rating_stars', 'rating_scale', 'weekend_price',
                     'weekend_sale', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
@@ -12,9 +6,7 @@ main_fields_null = ['company', 'header', 'rating_stars', 'rating_scale', 'weeken
                     'question_1', 'answer_1', 'question_2', 'answer_2', 'question_3',
                     'answer_3', 'question_4', 'answer_4', 'views', 'all_rating_stars',
                     'all_rating_scale', 'reviews_count', 'questions_count', 'calendar']
-
 main_field_dbl_lang = ['slug', 'varieties', 'time', 'district', 'mini_desc']
-
 main_fields = ['city', 'company', 'title', 'slug',
                'header', 'rating_stars', 'rating_scale',
                'image', 'video', 'price', 'sale',
