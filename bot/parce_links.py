@@ -1,4 +1,5 @@
 import requests
+from data import main_fields_null
 
 
 def parce(link):
@@ -58,8 +59,11 @@ def parce(link):
     # address
     item['address'] = (res['address'])
     # map_link
-    item['map_link'] = ('https://www.google.com/maps/search/?api=1&query=' + (
+    try:
+        item['map_link'] = ('https://www.google.com/maps/search/?api=1&query=' + (
             str(res['location']['lat']) + ',' + str(res['location']['lon'])))
+    except:
+        item['map_link'] = None
     # contact_phone
     item['contact_phone'] = (res['phone'])
     # mini_desc_en
@@ -89,8 +93,14 @@ def parce(link):
 
     # website
     if res['website'] == '':
-        item['website'] = ('None')
+        item['website'] = None
     else:
         item['website'] = (res['website'])
 
-    return item
+    for field in main_fields_null:
+        item[field] = None
+    myKeys = list(item.keys())
+    myKeys.sort()
+    sorted_item = {i: item[i] for i in myKeys}
+    return sorted_item
+
