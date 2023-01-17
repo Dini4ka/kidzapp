@@ -1,5 +1,5 @@
 import requests
-from pprint import pprint
+
 
 def parce(link):
     offer_id = link.split('-')[-1]
@@ -94,5 +94,3 @@ def parce(link):
         item['website'] = (res['website'])
 
     return item
-
-pprint(parce('https://kidzapp.com/kids-activities/abu-dhabi/theme-parks/the-wizarding-world-of-harry-potter-at-warner-bros-abu-dhabi-114534'))
