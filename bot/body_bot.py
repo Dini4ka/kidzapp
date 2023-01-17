@@ -2,9 +2,20 @@ import time
 import undetected_chromedriver.v2 as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 
 from config import *
 
+def scroll_down(self):
+    begin = 0
+    while True:
+        try:
+            self.driver.find_element(By.ID,'not-found1')
+            break
+        except:
+            self.driver.execute_script(f"window.scrollTo({begin},{begin+500});")
+            begin += 500
+            time.sleep(2)
 
 class KidzappParse:
 
@@ -30,11 +41,15 @@ class KidzappParse:
         for _category in categories:
             category_field.select_by_visible_text(_category)
             time.sleep(2)
-            # Getting offer's link
+            scroll_down(self)
             offer_list = self.driver.find_element(By.CLASS_NAME, 'reviewDiv')
-            self.links = [offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME, 'a')]
+            self.links.append([offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME, 'a')
+                               if 'kids-activities' in offer.get_attribute('href')])
             print(self.links)
         time.sleep(5)
+
+    def send(self):
+        return self.links
 
     def end(self):
         self.driver.close()

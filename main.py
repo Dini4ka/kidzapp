@@ -9,6 +9,7 @@ bot = KidzappParse()
 try:
     bot.start()
     bot.Getting_offers()
+    print(bot.send())
 except Exception as ex:
     print(ex)
 finally:
