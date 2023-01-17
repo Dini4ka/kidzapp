@@ -2,20 +2,21 @@ import time
 import undetected_chromedriver.v2 as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains
 
 from config import *
+
 
 def scroll_down(self):
     begin = 0
     while True:
         try:
-            self.driver.find_element(By.ID,'not-found1')
+            self.driver.find_element(By.ID, 'not-found1')
             break
         except:
-            self.driver.execute_script(f"window.scrollTo({begin},{begin+500});")
+            self.driver.execute_script(f"window.scrollTo({begin},{begin + 500});")
             begin += 500
             time.sleep(2)
+
 
 class KidzappParse:
 
@@ -38,14 +39,21 @@ class KidzappParse:
 
         # handle categories
         category_field = Select(self.driver.find_element(By.ID, 'categoryDropdown'))
-        for _category in categories:
-            category_field.select_by_visible_text(_category)
-            time.sleep(2)
-            scroll_down(self)
-            offer_list = self.driver.find_element(By.CLASS_NAME, 'reviewDiv')
-            self.links.append([offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME, 'a')
-                               if 'kids-activities' in offer.get_attribute('href')])
-            print(self.links)
+        with open("файл.txt", "w") as file:
+            for _category in categories:
+                print(f'Parsing {_category} .... ')
+                category_field.select_by_visible_text(_category)
+                time.sleep(2)
+                scroll_down(self)
+                offer_list = self.driver.find_element(By.CLASS_NAME, 'reviewDiv')
+                offer_links = [offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME, 'a')
+                                   if 'kids-activities' in offer.get_attribute('href')]
+                print("\n".join(map(str,offer_links)), file=file)
+                self.links.append(offer_links)
+                print('Parsed ' + str(len(offer_links)))
+        uniqlines = set(open(file, 'r', encoding='utf-8').readlines())
+        gotovo = open(file, 'w', encoding='utf-8').writelines(set(uniqlines))
+        file.close()
         time.sleep(5)
 
     def send(self):
