@@ -1,7 +1,7 @@
 import xlsxwriter
 import openpyxl
 from openpyxl.utils.cell import coordinate_from_string, column_index_from_string
-from data import *
+from data.data import *
 from bot import *
 
 
@@ -36,29 +36,16 @@ def Make_Table():
     workbook.close()
 
 
-def make_note_offers(link, file):
-    with open("../файл.txt", "r") as file:
-        lines = [line.rstrip() for line in file]
-    wb = openpyxl.load_workbook('data.xlsx')
+def make_note_in_offers(link, path_to_the_file):
+    wb = openpyxl.load_workbook(path_to_the_file)
     ws = wb['offers']
-    row = 2
-    for line in lines:
-        try:
-            item = parce(line)
-        except Exception as ex:
-            print(ex)
-            continue
-        print(row)
-        try:
-            for col in range(len(main_fields)):
-                key = ws[1][col].value
-                ws.cell(row, col + 1).value = str(item[key])
-        except Exception as ex:
-            print(ex)
-            continue
-        row = row + 1
-        print('Written ' + item['slug'])
-    wb.save('data.xlsx')
-
+    row = ws.max_row + 1
+    item = parce(link)
+    for col in range(len(main_fields)):
+        key = ws[1][col].value
+        ws.cell(row, col + 1).value = str(item[key])
+    row = row + 1
+    print('Written ' + item['slug'])
+    wb.save(path_to_the_file)
 
 Make_Table()
