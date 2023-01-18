@@ -37,33 +37,28 @@ def Make_Table():
 
 
 def make_note_offers(link, file):
+    with open("../файл.txt", "r") as file:
+        lines = [line.rstrip() for line in file]
     wb = openpyxl.load_workbook('data.xlsx')
-    offers = wb['offers']
-    print(offers[1][0].value)
-    print(offers[1][2].value)
-    pass
+    ws = wb['offers']
+    row = 2
+    for line in lines:
+        try:
+            item = parce(line)
+        except Exception as ex:
+            print(ex)
+            continue
+        print(row)
+        try:
+            for col in range(len(main_fields)):
+                key = ws[1][col].value
+                ws.cell(row, col + 1).value = str(item[key])
+        except Exception as ex:
+            print(ex)
+            continue
+        row = row + 1
+        print('Written ' + item['slug'])
+    wb.save('data.xlsx')
 
 
 Make_Table()
-with open("../файл.txt", "r") as file:
-    lines = [line.rstrip() for line in file]
-wb = openpyxl.load_workbook('data.xlsx')
-ws = wb['offers']
-row = 2
-for line in lines:
-    try:
-        item = parce(line)
-    except Exception as ex:
-        print(ex)
-        continue
-    print(row)
-    try:
-        for col in range(len(main_fields)):
-            key = ws[1][col].value
-            ws.cell(row, col + 1).value = str(item[key])
-    except Exception as ex:
-        print(ex)
-        continue
-    row = row + 1
-    print('Written ' + item['slug'])
-wb.save('data.xlsx')
