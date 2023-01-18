@@ -1,5 +1,5 @@
 import requests
-from data import main_fields_null
+from data.field_data import main_fields_null
 
 
 def parce(link):
@@ -103,4 +103,3 @@ def parce(link):
     myKeys.sort()
     sorted_item = {i: item[i] for i in myKeys}
     return sorted_item
-

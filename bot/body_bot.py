@@ -3,7 +3,8 @@ import undetected_chromedriver.v2 as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from config import *
+
+from config.config import *
 
 
 def scroll_down(self):
@@ -39,7 +40,7 @@ class KidzappParse:
 
         # handle categories
         category_field = Select(self.driver.find_element(By.ID, 'categoryDropdown'))
-        with open("файл.txt", "w") as file:
+        with open("config/file.txt", "w") as file:
             for _category in categories:
                 print(f'Parsing {_category} .... ')
                 category_field.select_by_visible_text(_category)
@@ -51,8 +52,6 @@ class KidzappParse:
                 print("\n".join(map(str,offer_links)), file=file)
                 self.links.append(offer_links)
                 print('Parsed ' + str(len(offer_links)))
-        uniqlines = set(open(file, 'r', encoding='utf-8').readlines())
-        gotovo = open(file, 'w', encoding='utf-8').writelines(set(uniqlines))
         file.close()
         time.sleep(5)
 
