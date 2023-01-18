@@ -4,6 +4,7 @@ import openpyxl
 from data.field_data import *
 import bot.parcing_links
 
+
 def Make_Table():
     try:
         f = open('config/data.xlsx')
@@ -45,9 +46,16 @@ def make_note_in_offers(link):
     wb = openpyxl.load_workbook('config/data.xlsx')
     ws = wb['offers']
     row = ws.max_row + 1
-    item = bot.parce(link)
+    item = bot.parce(link, row-1)
+    ws.cell(row, 1).value = row - 1
     for col in range(len(main_fields)):
         key = ws[1][col].value
         ws.cell(row, col + 1).value = str(item[key])
     print('Written ' + item['slug'])
     wb.save('config/data.xlsx')
+
+
+def make_notes_in_child_offers(link):
+    wb = openpyxl.load_workbook('config/data.xlsx')
+    ws = wb['child_offers']
+    row = ws.max_row + 1

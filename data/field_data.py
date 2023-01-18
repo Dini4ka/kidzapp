@@ -10,7 +10,7 @@ main_fields_null = ['all_rating_scale', 'all_rating_stars', 'answer_1',
                     'thursday', 'tuesday', 'views', 'wednesday',
                     'weekend_price', 'weekend_sale', 'x_2_bonuses']
 main_field_dbl_lang = ['varieties', 'district', 'mini_desc', 'description']
-main_fields = ['address', 'age_max', 'age_min', 'all_rating_scale',
+main_fields = ['id', 'address', 'age_max', 'age_min', 'all_rating_scale',
                'all_rating_stars', 'answer_1', 'answer_2', 'answer_3',
                'answer_4', 'book_or_no', 'calendar', 'city', 'company',
                'contact_phone', 'description_ar', 'description_en',
@@ -26,7 +26,7 @@ main_fields = ['address', 'age_max', 'age_min', 'all_rating_scale',
                'weekend_sale', 'x_2_bonuses']
 
 # child table fields
-child_fields_null = ['company', 'weekend_price', 'weekend_sale', 'delivery', 'views']
+child_fields_null = ['company', 'weekend_price', 'weekend_sale', 'delivery', 'views', 'image','subcategory', 'delivery']
 child_fields = ['company', 'agency', 'subcategory',
                 'title', 'image', 'price', 'sale',
                 'weekend_price', 'weekend_sale',

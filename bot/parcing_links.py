@@ -2,7 +2,7 @@ import requests
 from data.field_data import main_fields_null
 
 
-def parce(link):
+def parce(link,id):
     offer_id = link.split('-')[-1]
     item = {}
     params_en = {
@@ -20,6 +20,8 @@ def parce(link):
 
     res = requests.post('https://kidzapp.com/otherOffers', data=params_en).json()['data']
     res_ar = requests.post('https://kidzapp.com/otherOffers', data=params_ar).json()['data']
+    #id
+    item['id'] = id
     # city
     item['city'] = res['city']['name']
     # title_en, title_ar
@@ -41,6 +43,8 @@ def parce(link):
         item['price'] = None
     # sale
     try:
+        if  res['price'][0]['final_price'] == 0:
+            item['sale'] = None
         item['sale'] = res['price'][0]['final_price']
     except Exception:
         item['sale'] = None
@@ -74,7 +78,7 @@ def parce(link):
     else:
         item['mini_desc_ar'] = res_ar['description'].split('\n')[0]
     # status
-    item['status'] = 'approved'
+    item['status'] = 'Одобрено'
     # schedule
     if schedule['status']:
         item['schedule'] = schedule['schedules']
@@ -103,3 +107,6 @@ def parce(link):
     myKeys.sort()
     sorted_item = {i: item[i] for i in myKeys}
     return sorted_item
+
+def parce_child_offers(link):
+    pass
