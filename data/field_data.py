@@ -32,7 +32,8 @@ child_field_dbl_lang = ['title', ]
 child_fields = ['company', 'agency', 'subcategory_en', 'subcategory_ar',
                 'title_en', 'title_ar', 'image', 'price', 'sale',
                 'weekend_price', 'weekend_sale',
-                'mini_desc', 'description', 'duration', 'measurement_units',  # measurement_units = ''
+                'mini_desc_en', 'mini_desc_ar', 'description_en', 'description_ar',
+                'duration', 'measurement_units',  # measurement_units = ''
                 'delivery', 'status', 'views']
 
 # image table fields

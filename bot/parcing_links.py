@@ -144,8 +144,8 @@ def parce_child_offers(link, offer_key_id):
                 print(f'price not specified for {item["title_en"]}')
                 item['price'] = None
             item['sale'] = None
-            item['mini_desc'] = res_en['working_hours_brief']
-            item['description'] = res_en['working_hours_brief']
+            item['description_en'] = item['mini_desc_en'] = res_en['working_hours_brief']
+            item['description_ar'] = item['mini_desc_ar'] = res_ar['working_hours_brief']
             item['subcategory_en'] = None
             item['subcategory_ar'] = None
             item['duration'] = None
@@ -166,8 +166,10 @@ def parce_child_offers(link, offer_key_id):
             item['title_ar'] = offers_item_ar[offer]['type']
             item['price'] = offers_item_en[offer]['orginal_price']
             item['sale'] = offers_item_en[offer]['final_price']
-            item['mini_desc'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
-            item['description'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
+            item['mini_desc_en'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
+            item['mini_desc_ar'] = offers_item_ar[offer]['small_text_type_ar'] if offers_item_ar[offer]['small_text_type_ar'] is not None else res_ar['working_hours_brief']
+            item['description_en'] = item['mini_desc_en']
+            item['description_ar'] = item['mini_desc_ar']
             item['subcategory_en'] = offers_item_ar[offer]['header_en']
             item['subcategory_ar'] = offers_item_ar[offer]['header_ar']
             item['duration'] = None
