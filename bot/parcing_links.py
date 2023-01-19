@@ -1,5 +1,5 @@
 import requests
-from data.field_data import main_fields_null
+from data.field_data import *
 
 
 def parce(link,id):
@@ -108,5 +108,72 @@ def parce(link,id):
     sorted_item = {i: item[i] for i in myKeys}
     return sorted_item
 
-def parce_child_offers(link):
-    pass
+
+def parce_child_offers(link, id):
+    offer_id = link.split('-')[-1]
+    params_en = {
+        "countryCode": 'ae',
+        "id": offer_id,
+        "lang": 'en'
+    }
+    params_ar = {
+        "countryCode": 'ae',
+        "id": offer_id,
+        "lang": 'ar'
+    }
+    res_en = requests.post('https://kidzapp.com/otherOffers', data=params_en).json()['data']
+    res_ar = requests.post('https://kidzapp.com/otherOffers', data=params_ar).json()['data']
+    #pprint(res_en['price'])
+    items = []
+    #######################
+    # Рассмотрим два случая
+    #######################
+    # 1) нет информации
+    if not res_en['price']:
+        offers_item = res_en['price_age_groups'].split('\r\n')
+        offers_item_ar = res_ar['price_age_groups'].split('\r\n')
+        offers_prices = res_en['price_age_prices'].split('\r\n')
+        for offer in range(len(offers_item)):
+            item = {}
+            item['agency'] = id
+            item['title_en'] = offers_item[offer]
+            item['title_ar'] = offers_item_ar[offer]
+            try:
+                item['price'] = offers_prices[offer].replace('AED','')
+            except IndexError as ex:
+                print(f'price not specified for {item["title"]}')
+                item['price'] = None
+            item['sale'] = None
+            item['mini_desc'] = res_en['working_hours_brief']
+            item['description'] = res_en['working_hours_brief']
+            item['subcategory_en'] = None
+            item['subcategory_ar'] = None
+            item['duration'] = None
+            item['measurement_units'] = ''
+            item['status'] = 'Одобрено'
+            for field in child_fields_null:
+                item[field] = None
+            items.append(item)
+    ######################
+    # 2) есть информация
+    else:
+        offers_item_en = res_en['price']
+        offers_item_ar = res_ar['price']
+        for offer in range(len(offers_item_en)):
+            item = {}
+            item['agency'] = id
+            item['title_en'] = offers_item_en[offer]['type']
+            item['title_ar'] = offers_item_ar[offer]['type']
+            item['price'] = offers_item_en[offer]['orginal_price']
+            item['sale'] = offers_item_en[offer]['final_price']
+            item['mini_desc'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
+            item['description'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
+            item['subcategory_en'] = offers_item_ar[offer]['header_en']
+            item['subcategory_ar'] = offers_item_ar[offer]['header_ar']
+            item['duration'] = None
+            item['measurement_units'] = ''
+            item['status'] = 'Одобрено'
+            for field in child_fields_null:
+                item[field] = None
+            items.append(item)
+    return items
