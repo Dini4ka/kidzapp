@@ -141,7 +141,7 @@ def parce_child_offers(link, offer_key_id):
             try:
                 item['price'] = offers_prices[offer].replace('AED','')
             except IndexError as ex:
-                print(f'price not specified for {item["title"]}')
+                print(f'price not specified for {item["title_en"]}')
                 item['price'] = None
             item['sale'] = None
             item['mini_desc'] = res_en['working_hours_brief']
@@ -177,3 +177,19 @@ def parce_child_offers(link, offer_key_id):
                 item[field] = None
             items.append(item)
     return items
+
+
+def parce_image_offers(link, offer_key_id):
+    offer_id = link.split('-')[-1]
+    image_items = []
+    params_en = {
+        "countryCode": 'ae',
+        "id": offer_id,
+        "lang": 'en'
+    }
+    res = requests.post('https://kidzapp.com/otherOffers', data=params_en).json()['data']
+    images = res['image_carousel_list']
+    for image in images:
+        item = {'review': 'None', 'question': 'None', 'audit_element': 'None', 'product': offer_key_id, 'image': image}
+        image_items.append(item)
+    return image_items

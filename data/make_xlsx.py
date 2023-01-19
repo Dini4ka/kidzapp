@@ -66,5 +66,19 @@ def make_notes_in_child_offers(link, offer_key_id):
             key = ws[1][col].value
             ws.cell(row, col + 1).value = str(item[key])
         row += 1
-        print(f'Written child offer for {item["agency"]}')
+        print(f'Written child offer for {item["agency"]} main offer')
+    wb.save('config/data.xlsx')
+
+
+def make_notes_in_offers_image(link, offer_key_id):
+    wb = openpyxl.load_workbook('config/data.xlsx')
+    ws = wb['images']
+    row = ws.max_row + 1
+    items = bot.parce_image_offers(link, offer_key_id)
+    for item in items:
+        for col in range(len(image)):
+            key = ws[1][col].value
+            ws.cell(row, col + 1).value = item[key]
+        row += 1
+        print(f'Written image for {item["product"]} main offer')
     wb.save('config/data.xlsx')
