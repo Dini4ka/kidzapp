@@ -87,7 +87,7 @@ def parce(link,id):
                             '"open":"12:00 AM","close":"11:59 PM"},{"day":"tue","open":"12:00 AM",' \
                             '"close":"11:59 PM"},{"day":"wed","open":"12:00 AM","close":"11:59 PM"},' \
                             '{"day":"thu","open":"12:00 AM","close":"11:59 PM"},{"day":"fri",' \
-                            '"open":"12:00 AM","close":"11:59 PM')
+                            '"open":"12:00 AM","close":"11:59 PM}]')
     # description_en,description_ar
     item['description_en'] = (res['description'])
     item['description_ar'] = (res_ar['description'])
