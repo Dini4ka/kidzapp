@@ -30,7 +30,7 @@ def parce(link,id):
     # slug
     item['slug'] = res['slug']
     # image
-    item['image'] = res['image_carousel_list']
+    item['image'] = ','.join(res['image_carousel_list'])
     # video
     if res['video'] == '':
         item['video'] = None
@@ -109,7 +109,7 @@ def parce(link,id):
     return sorted_item
 
 
-def parce_child_offers(link, id):
+def parce_child_offers(link, offer_key_id):
     offer_id = link.split('-')[-1]
     params_en = {
         "countryCode": 'ae',
@@ -135,7 +135,7 @@ def parce_child_offers(link, id):
         offers_prices = res_en['price_age_prices'].split('\r\n')
         for offer in range(len(offers_item)):
             item = {}
-            item['agency'] = id
+            item['agency'] = offer_key_id
             item['title_en'] = offers_item[offer]
             item['title_ar'] = offers_item_ar[offer]
             try:
@@ -161,7 +161,7 @@ def parce_child_offers(link, id):
         offers_item_ar = res_ar['price']
         for offer in range(len(offers_item_en)):
             item = {}
-            item['agency'] = id
+            item['agency'] = offer_key_id
             item['title_en'] = offers_item_en[offer]['type']
             item['title_ar'] = offers_item_ar[offer]['type']
             item['price'] = offers_item_en[offer]['orginal_price']

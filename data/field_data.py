@@ -29,11 +29,11 @@ main_fields = ['id', 'address', 'age_max', 'age_min', 'all_rating_scale',
 child_fields_null = ['company', 'weekend_price', 'weekend_sale', 'delivery', 'views', 'image',
                      'duration', 'delivery']
 child_field_dbl_lang = ['title', ]
-child_fields = ['company', 'agency', 'subcategory',
-                'title_en', 'title_ar,' 'image', 'price', 'sale',
+child_fields = ['company', 'agency', 'subcategory_en', 'subcategory_ar',
+                'title_en', 'title_ar', 'image', 'price', 'sale',
                 'weekend_price', 'weekend_sale',
                 'mini_desc', 'description', 'duration', 'measurement_units',  # measurement_units = ''
-                'delivery', 'satus', 'views']
+                'delivery', 'status', 'views']
 
 # image table fields
 image_null = ['product', 'review', 'question', 'audit_element']

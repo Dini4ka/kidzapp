@@ -53,9 +53,18 @@ def make_note_in_offers(link):
         ws.cell(row, col + 1).value = str(item[key])
     print('Written ' + item['slug'])
     wb.save('config/data.xlsx')
+    return row-1
 
 
-def make_notes_in_child_offers(link):
+def make_notes_in_child_offers(link, offer_key_id):
     wb = openpyxl.load_workbook('config/data.xlsx')
     ws = wb['child_offers']
     row = ws.max_row + 1
+    items = bot.parce_child_offers(link, offer_key_id)
+    for item in items:
+        for col in range(len(child_fields)):
+            key = ws[1][col].value
+            ws.cell(row, col + 1).value = str(item[key])
+        row += 1
+        print(f'Written child offer for {item["agency"]}')
+    wb.save('config/data.xlsx')

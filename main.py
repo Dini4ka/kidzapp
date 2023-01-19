@@ -25,5 +25,5 @@ Make_Table()
 with open('config/file.txt', "r") as file:
     lines = [line.rstrip() for line in file]
 for line in lines:
-    make_note_in_offers(line)
-    make_notes_in_child_offers(line)
+    offer_key_id = make_note_in_offers(line)
+    make_notes_in_child_offers(line, offer_key_id)
