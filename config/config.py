@@ -1,1 +1,1 @@
-website = 'https://kidzapp.com/filter'
+website = 'https://kidzapp.com/filter/'

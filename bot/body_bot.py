@@ -1,62 +1,59 @@
 import time
-import undetected_chromedriver.v2 as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
-
+import requests
+from bs4 import BeautifulSoup
 
 from config.config import *
-
-
-def scroll_down(self):
-    begin = 0
-    while True:
-        try:
-            self.driver.find_element(By.ID, 'not-found1')
-            break
-        except:
-            self.driver.execute_script(f"window.scrollTo({begin},{begin + 500});")
-            begin += 500
-            time.sleep(2)
 
 
 class KidzappParse:
 
     def __init__(self):
-        self.driver = uc.Chrome()
-        self.links = []
+        self.res = []
+        self.new_res = []
+        self.categories = []
 
     def start(self):
-        self.driver.get(website)
+        soup = BeautifulSoup(requests.get(website).text, 'html.parser')
+        filters = soup.find('select', {'onchange': 'getSubCategories(this.options[this.selectedIndex].value)'})
+        self.categories = [filter.get('id') for filter in filters.findAll('option') if filter.get('id')]
+        try:
+            with open('config/file.txt', 'r') as f:
+                self.res = [line.replace('\n', '') for line in f.readlines()]
+            f.close()
+        except FileNotFoundError:
+            pass
 
-    def Getting_offers(self):
-        # Filters
-        categories = []
-        # Getting all attributes for filters
-        _filters = self.driver.find_elements(By.CLASS_NAME, 'js-example-disabled-results')
-        for _filter in _filters:
-            if 'Category*' in _filter.text:
-                categories = _filter.text.split('\n')[1:]
-                break
-
-        # handle categories
-        category_field = Select(self.driver.find_element(By.ID, 'categoryDropdown'))
-        with open("config/file.txt", "w") as file:
-            for _category in categories:
-                print(f'Parsing {_category} .... ')
-                category_field.select_by_visible_text(_category)
-                time.sleep(2)
-                scroll_down(self)
-                offer_list = self.driver.find_element(By.CLASS_NAME, 'reviewDiv')
-                offer_links = [offer.get_attribute('href') for offer in offer_list.find_elements(By.TAG_NAME, 'a')
-                                   if 'kids-activities' in offer.get_attribute('href')]
-                print("\n".join(map(str,offer_links)), file=file)
-                self.links.append(offer_links)
-                print('Parsed ' + str(len(offer_links)))
-        file.close()
-        time.sleep(5)
-
-    def send(self):
-        return self.links
+    def gettingNewOffers(self):
+        for category in self.categories:
+            print(f'Parsing {self.categories.index(category) + 1}s from {len(self.categories)} categories ...')
+            page = 1
+            params = {
+                "PageNum": f"{page}",
+                "countryCode": "ae",
+                "lang": "en",
+                "searchQuery": f"&category={category}",
+                "lat": "",
+                "lan": ""
+            }
+            need_to_parce = requests.post(website, data=params).json()
+            while need_to_parce['message'] == 'success':
+                print(f'Checking {page}s page')
+                links = ['https://kidzapp.com/' + item['url'] for item in need_to_parce['searchData']]
+                [self.new_res.append(link) and print('Добавлена новая ссылка') for link in links
+                 if link not in self.res and link not in self.new_res and link != '']
+                page += 1
+                params = {
+                    "PageNum": f"{page}",
+                    "countryCode": "ae",
+                    "lang": "en",
+                    "searchQuery": f"&category={category}",
+                    "lat": "",
+                    "lan": ""
+                }
+                need_to_parce = requests.post(website, data=params).json()
+        print('Find ' + str(len(self.new_res)) + ' new links')
 
     def end(self):
-        self.driver.close()
+        with open("config/file.txt", "a+") as file:
+            print("\n".join(map(str, self.new_res)), file=file)
+        file.close()
