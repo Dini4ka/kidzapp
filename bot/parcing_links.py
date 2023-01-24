@@ -25,7 +25,7 @@ def parce_child_offers(offer_key_id, res_en):
             item['title_en'] = offers_item[offer]
             item['title_ar'] = offers_item_ar[offer]
             try:
-                item['price'] = offers_prices[offer].replace('AED','')
+                item['price'] = offers_prices[offer].replace('AED', '')
             except IndexError as ex:
                 print(f'price not specified for {item["title_en"]}')
                 item['price'] = None
@@ -52,8 +52,12 @@ def parce_child_offers(offer_key_id, res_en):
             item['title_ar'] = offers_item_ar[offer]['type']
             item['price'] = offers_item_en[offer]['orginal_price']
             item['sale'] = offers_item_en[offer]['final_price']
-            item['mini_desc_en'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer]['small_text_type'] is not None else res_en['working_hours_brief']
-            item['mini_desc_ar'] = offers_item_ar[offer]['small_text_type_ar'] if offers_item_ar[offer]['small_text_type_ar'] is not None else res_ar['working_hours_brief']
+            item['mini_desc_en'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer][
+                                                                                   'small_text_type'] is not None else \
+            res_en['working_hours_brief']
+            item['mini_desc_ar'] = offers_item_ar[offer]['small_text_type_ar'] if offers_item_ar[offer][
+                                                                                      'small_text_type_ar'] is not None else \
+            res_ar['working_hours_brief']
             item['description_en'] = item['mini_desc_en']
             item['description_ar'] = item['mini_desc_ar']
             item['subcategory_en'] = offers_item_ar[offer]['header_en']
@@ -67,7 +71,7 @@ def parce_child_offers(offer_key_id, res_en):
     return items
 
 
-def parce_image_offers(offer_key_id,res):
+def parce_image_offers(offer_key_id, res):
     image_items = []
     images = res['image_carousel_list']
     for image in images:
@@ -76,11 +80,11 @@ def parce_image_offers(offer_key_id,res):
     return image_items
 
 
-def parce_main_item(res,id):
+def parce_main_item(res, id):
     offer_id = res['id']
     item = {}
     params_ar = {
-        "countryCode": 'ae',
+        "countryCode": 'ae  ',
         "id": offer_id,
         "lang": 'ar'
     }
@@ -98,7 +102,11 @@ def parce_main_item(res,id):
     # slug
     item['slug'] = res['slug']
     # image
-    item['image'] = ','.join(res['image_carousel_list'])
+    try:
+        item['image'] = res['image_carousel_list'][0]
+    except Exception as ex:
+        print(ex)
+        item['image'] = None
     # video
     if res['video'] == '':
         item['video'] = None
