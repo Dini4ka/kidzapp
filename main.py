@@ -10,8 +10,8 @@ ssl._create_default_https_context = ssl._create_unverified_context
 bot = kidzappParse()
 try:
     bot.startGettingFilters()
-    bot.makeJson()
     bot.getItems()
+    bot.makeJson()
 except Exception as ex:
     print(ex)
 

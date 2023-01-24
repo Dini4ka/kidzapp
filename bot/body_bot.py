@@ -82,12 +82,15 @@ class kidzappParse:
     def makeJson(self):
 
         # Создаем json-файл и отправляем его в телеграмме
+        telegram_bot_sendtext('making main_items.json')
         with open('config/main_items.json', 'a+') as outfile:
             json.dump(self.main_items, outfile)
         send_file('config/main_items.json')
+        telegram_bot_sendtext('making child_items.json')
         with open('config/child_items.json', 'a+') as outfile:
             json.dump(self.child_items, outfile)
         send_file('config/child_items.json')
+        telegram_bot_sendtext('making image_items.json')
         with open('config/image_items.json', 'a+') as outfile:
             json.dump(self.image_items, outfile)
         send_file('config/image_items.json')
