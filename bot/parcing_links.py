@@ -75,7 +75,7 @@ def parce_image_offers(offer_key_id, res):
     image_items = []
     images = res['image_carousel_list']
     for image in images:
-        item = {'review': 'None', 'question': 'None', 'audit_element': 'None', 'product': offer_key_id, 'image': image}
+        item = {'review_id': 'None', 'question_id': 'None', 'audit_element_id': 'None', 'product_id': offer_key_id, 'image': image}
         image_items.append(item)
     return image_items
 

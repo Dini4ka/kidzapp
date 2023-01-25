@@ -37,5 +37,5 @@ child_fields = ['company', 'agency', 'subcategory_en', 'subcategory_ar',
                 'delivery', 'status', 'views']
 
 # image table fields
-image_null = ['product', 'review', 'question', 'audit_element']
-image = ['product', 'review', 'question', 'audit_element', 'image']
+image_null = ['product_id', 'review_id', 'question_id', 'audit_element_id']
+image = ['product_id', 'review_id', 'question_id', 'audit_element_id', 'image']
