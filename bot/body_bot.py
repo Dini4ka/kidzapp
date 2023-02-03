@@ -7,11 +7,12 @@ from data.field_data import *
 from bot.parcing_links import *
 from bot.helper_functions import *
 
+
 class kidzappParse:
 
     def __init__(self):
         try:
-            with open('main_items.json', 'r', encoding='utf-8') as f:
+            with open('config/main_items.json', 'r', encoding='utf-8') as f:
                 text = json.load(f)
                 self.main_items = text
         except FileNotFoundError:

@@ -21,7 +21,8 @@ def parce_child_offers(offer_key_id, res_en):
         offers_prices = res_en['price_age_prices'].split('\r\n')
         for offer in range(len(offers_item)):
             item = {}
-            item['agency'] = offer_key_id
+            item['agency_id'] = offer_key_id
+            item['title'] = offers_item[offer]
             item['title_en'] = offers_item[offer]
             item['title_ar'] = offers_item_ar[offer]
             try:
@@ -32,6 +33,8 @@ def parce_child_offers(offer_key_id, res_en):
             item['sale'] = None
             item['description_en'] = item['mini_desc_en'] = res_en['working_hours_brief']
             item['description_ar'] = item['mini_desc_ar'] = res_ar['working_hours_brief']
+            item['description'] = item['description_ens']
+            item['subcategory'] = None
             item['subcategory_en'] = None
             item['subcategory_ar'] = None
             item['duration'] = None
@@ -47,9 +50,10 @@ def parce_child_offers(offer_key_id, res_en):
         offers_item_ar = res_ar['price']
         for offer in range(len(offers_item_en)):
             item = {}
-            item['agency'] = offer_key_id
+            item['agency_id'] = offer_key_id
             item['title_en'] = offers_item_en[offer]['type']
             item['title_ar'] = offers_item_ar[offer]['type']
+            item['title'] = item['title_en']
             item['price'] = offers_item_en[offer]['orginal_price']
             item['sale'] = offers_item_en[offer]['final_price']
             item['mini_desc_en'] = offers_item_en[offer]['small_text_type'] if offers_item_en[offer][
@@ -60,8 +64,10 @@ def parce_child_offers(offer_key_id, res_en):
             res_ar['working_hours_brief']
             item['description_en'] = item['mini_desc_en']
             item['description_ar'] = item['mini_desc_ar']
+            item['description'] = item['description_en']
             item['subcategory_en'] = offers_item_ar[offer]['header_en']
             item['subcategory_ar'] = offers_item_ar[offer]['header_ar']
+            item['subcategory'] = item['subcategory_en']
             item['duration'] = None
             item['measurement_units'] = ''
             item['status'] = 'Одобрено'
@@ -97,6 +103,7 @@ def parce_main_item(res, id):
     # city
     item['city'] = res['city']['name']
     # title_en, title_ar
+    item['title'] = res['title']
     item['title_en'] = res['title']
     item['title_ar'] = res_ar['title']
     # slug
@@ -165,6 +172,7 @@ def parce_main_item(res, id):
                             '{"day":"thu","open":"12:00 AM","close":"11:59 PM"},{"day":"fri",' \
                             '"open":"12:00 AM","close":"11:59 PM}]')
     # description_en,description_ar
+    item['description'] = (res['description'])
     item['description_en'] = (res['description'])
     item['description_ar'] = (res_ar['description'])
 
