@@ -28,12 +28,13 @@ def parce_child_offers(offer_key_id, res_en):
             try:
                 item['price'] = offers_prices[offer].replace('AED', '')
             except IndexError as ex:
+                print(ex)
                 print(f'price not specified for {item["title_en"]}')
                 item['price'] = None
             item['sale'] = None
             item['description_en'] = item['mini_desc_en'] = res_en['working_hours_brief']
             item['description_ar'] = item['mini_desc_ar'] = res_ar['working_hours_brief']
-            item['description'] = item['description_ens']
+            item['description'] = item['description_en']
             item['subcategory'] = None
             item['subcategory_en'] = None
             item['subcategory_ar'] = None
@@ -122,14 +123,16 @@ def parce_main_item(res, id):
     # price
     try:
         item['price'] = res['price'][0]['orginal_price']
-    except Exception:
+    except Exception as ex:
+        print(ex)
         item['price'] = None
     # sale
     try:
         if res['price'][0]['final_price'] == 0:
             item['sale'] = None
         item['sale'] = res['price'][0]['final_price']
-    except Exception:
+    except Exception as ex:
+        print(ex)
         item['sale'] = None
     # varieties
     for category in res['categories']:
@@ -149,7 +152,8 @@ def parce_main_item(res, id):
     try:
         item['map_link'] = ('https://www.google.com/maps/search/?api=1&query=' + (
                 str(res['location']['lat']) + ',' + str(res['location']['lon'])))
-    except:
+    except Exception as ex:
+        print(ex)
         item['map_link'] = None
     # contact_phone
     item['contact_phone'] = (res['phone'])

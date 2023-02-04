@@ -37,7 +37,8 @@ class kidzappParse:
             with open('main_items.json', 'r', encoding='utf-8') as f:
                 text = json.load(f)
                 item_id = len(text) - 1
-        except FileNotFoundError:
+        except FileNotFoundError as ex:
+            print(ex)
             item_id = 0
 
         for category in self.categories:
