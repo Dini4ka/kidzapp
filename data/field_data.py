@@ -29,6 +29,7 @@ main_fields = ['id', 'city', 'title', 'title_en', 'title_ar', 'slug', 'header',
                'views_id']
 
 
+
 # child table fields
 child_fields_null = ['company_id', 'weekend_price', 'weekend_sale', 'delivery', 'views,_id', 'image',
                      'duration', 'delivery']
